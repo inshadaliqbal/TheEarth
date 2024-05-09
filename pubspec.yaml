@@ -32,9 +32,28 @@ flutter:
      - images/
      - assets/
 
-#  fonts:
-#     - family: Schyler
-#       fonts:
-#         - asset: fonts/Schyler-Regular.ttf
-#         - asset: fonts/Schyler-Italic.ttf
-#           style: italic
+  fonts:
+     - family: nazal
+       fonts:
+          - asset: fonts/nasalization.ttf
+     - family: spaceage
+       fonts:
+         - asset: fonts/spaceage.ttf
+     - family: earthorbit
+       fonts:
+         - asset: fonts/earthorbiter.ttf
+     - family: suiss
+       fonts:
+         - asset: fonts/Suissnord.otf
+     - family: spaceship
+       fonts:
+         - asset: fonts/spaceship.ttf
+     - family: radiospace
+       fonts:
+         - asset: fonts/radiospace.ttf
+     - family: square
+       fonts:
+         - asset: fonts/square.otf
+     - family: bitsu
+       fonts:
+         - asset: fonts/bitsu.ttf
