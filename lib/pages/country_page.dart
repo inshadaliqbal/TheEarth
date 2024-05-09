@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:theearth/constants/style.dart';
 import 'package:theearth/widgets/buttons.dart';
 import 'package:theearth/constants/constants.dart';
 import 'package:theearth/constants/country_class.dart';
@@ -6,9 +7,9 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
 class CountryPage extends StatelessWidget {
-  final CountryData countryData;
-  final String? imageData;
-  static const String countryPage = 'country_page';
+  final CountryData countryData; // Declaring country data object
+  final String? imageData; // Declaring image data variable for country images
+  static const String countryPage = 'country_page'; // Defining a constant string for the page route
 
   CountryPage({super.key, required this.imageData, required this.countryData});
 
@@ -27,12 +28,11 @@ class CountryPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(
-                          jsonDecode(imageData!)["hits"][index]
-                              ["largeImageURL"],
+                          jsonDecode(imageData!)["hits"][index]["largeImageURL"], // Decoding and fetching image URL from JSON data
                         ),
                         fit: BoxFit.cover,
                       ),
-                      color: Colors.teal,
+                      color: kMainColor,
                       borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(20.0),
                         bottomRight: Radius.circular(20.0),
@@ -41,8 +41,8 @@ class CountryPage extends StatelessWidget {
                     width: 400,
                   );
                 },
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
+                itemCount: 5, // Setting item count for ListView
+                scrollDirection: Axis.horizontal, // Setting horizontal scroll direction for ListView
               ),
             ),
           ),
@@ -58,7 +58,7 @@ class CountryPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          '${countryData.commonName}',
+                          '${countryData.commonName}', // Displaying country common name
                           style: kCountryPageTitleTextStyle,
                         ),
                       ),
@@ -67,13 +67,13 @@ class CountryPage extends StatelessWidget {
                         width: 100,
                         padding: const EdgeInsets.all(10),
                         child: Image(
-                          image: NetworkImage(countryData.flagURL!),
+                          image: NetworkImage(countryData.flagURL!), // Displaying country flag image
                         ),
                       ),
                     ],
                   ),
                   const Text(
-                    'About :-',
+                    'About :-', // Text widget
                     style: kCountryPageAboutTextStyle,
                   ),
                   Expanded(
@@ -82,7 +82,7 @@ class CountryPage extends StatelessWidget {
                       child: ListView(
                         children: [
                           Text(
-                            'Welcome to ${countryData.officialName}, a vibrant nation nestled in ${countryData.continent}, boasting a rich tapestry of cultures and languages, with ${countryData.population} inhabitants and ${countryData.languageUsed?[countryData.languageUsed!.keys.first]} as its common tongue. The bustling capital of ${countryData.capitalName![0]} serves as the pulsating epicenter of this diverse land, where historic landmarks blend seamlessly with modern marvels. Spanning ${countryData.area} square kilometers, ${countryData.officialName} showcases breathtaking natural landscapes, from lush forests to picturesque coastlines, beckoning adventurers and nature enthusiasts alike. With a thriving economy driven by the ${countryData.currencyUsed[countryData.currencyUsed.keys.first]["name"]}, ${countryData.officialName} actively engages on the global stage, fostering diplomatic relations and addressing pressing issues. Immerse yourself in ${countryData.officialName}\'s captivating allure, where every moment promises discovery and every experience leaves an indelible mark.',
+                            'Welcome to ${countryData.officialName}, a vibrant nation nestled in ${countryData.continent}, boasting a rich tapestry of cultures and languages, with ${countryData.population} inhabitants and ${countryData.languageUsed?[countryData.languageUsed!.keys.first]} as its common tongue. The bustling capital of ${countryData.capitalName![0]} serves as the pulsating epicenter of this diverse land, where historic landmarks blend seamlessly with modern marvels. Spanning ${countryData.area} square kilometers, ${countryData.officialName} showcases breathtaking natural landscapes, from lush forests to picturesque coastlines, beckoning adventurers and nature enthusiasts alike. With a thriving economy driven by the ${countryData.currencyUsed[countryData.currencyUsed.keys.first]["name"]}, ${countryData.officialName} actively engages on the global stage, fostering diplomatic relations and addressing pressing issues. Immerse yourself in ${countryData.officialName}\'s captivating allure, where every moment promises discovery and every experience leaves an indelible mark.', // Displaying country information
                             style: kCountryPageDescTextStyle,
                           ),
                         ],
@@ -91,16 +91,16 @@ class CountryPage extends StatelessWidget {
                   ),
                   MainButton(
                     onPressed: () async {
-                      final Uri _url = Uri.parse('${countryData!.mapURL}');
-                      if (!await launchUrl(_url)) {
+                      final Uri _url = Uri.parse('${countryData.mapURL}'); // Parsing map URL
+                      if (!await launchUrl(_url)) { // Launching URL
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Failed to launch map URL'),
+                            content: Text('Failed to launch map URL'), // Showing snackbar if failed to launch URL
                           ),
                         );
                       }
                     },
-                    buttonTitle: 'Locate ${countryData!.commonName}',
+                    buttonTitle: 'Locate ${countryData.commonName}', // Button title
                   ),
                 ],
               ),

@@ -1,26 +1,31 @@
 import 'package:http/http.dart' as http;
-
 import 'package:connectivity_plus/connectivity_plus.dart';
+
 class NetworkHelper {
-  String? countryName;
-  NetworkHelper({required this.countryName});
+  String? countryName; // Variable to store the country name
+  NetworkHelper(
+      {required this.countryName}); // Constructor to initialize the country name
 
   Future<dynamic> getData() async {
-
-
-    final ConnectivityResult connectivityResult =
-    await (Connectivity().checkConnectivity());
+    final ConnectivityResult connectivityResult = await (Connectivity()
+        .checkConnectivity()); // Check network connectivity
     if (connectivityResult == ConnectivityResult.none) {
-      print('internet problem');
+      // If no internet connection
+      print('Internet problem'); // Print message indicating internet problem
     } else {
+      // If internet connection is available
       http.Response response = await http.get(
-        Uri.parse("https://pixabay.com/api/?key=19287678-50757094ceb179404cc63406d&q=${countryName}"),
+        // Make a GET request to the Pixabay API
+        Uri.parse(
+            "https://pixabay.com/api/?key=19287678-50757094ceb179404cc63406d&q=${countryName}"), // API endpoint with country name query parameter
       );
       if (response.statusCode == 200) {
-        var data = response.body;
-        return data;
+        // If the request is successful
+        var data = response.body; // Extract response body
+        return data; // Return the data
       } else {
-        print(response.statusCode);
+        // If the request fails
+        print(response.statusCode); // Print the status code
       }
     }
   }

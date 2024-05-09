@@ -5,28 +5,29 @@ import 'package:theearth/pages/country_page.dart';
 import '../helpers/networking.dart';
 
 class LoadingScreen extends StatefulWidget {
-  CountryData dataForCountryPage;
+  CountryData dataForCountryPage; // Data object for the country page
   LoadingScreen({required this.dataForCountryPage});
   @override
   State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  var imageData;
+  var imageData; // Variable for storing image data
+
   void getLocationData() async {
     try {
       NetworkHelper networkHelper = await NetworkHelper(
-          countryName: widget.dataForCountryPage.commonName);
-      imageData = await networkHelper.getData();
+          countryName: widget.dataForCountryPage.commonName); // Creating network helper object to fetch data
+      imageData = await networkHelper.getData(); // Fetching image data from API
     } catch (e) {
-      print('An error occurred while fetching image data: $e');
+      print('An error occurred while fetching image data: $e'); // Handling error if data fetching fails
     }
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
           return CountryPage(
-            countryData: widget.dataForCountryPage,
-            imageData: imageData,
+            countryData: widget.dataForCountryPage, // Passing country data to CountryPage
+            imageData: imageData, // Passing image data to CountryPage
           );
         },
       ),
@@ -35,9 +36,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getLocationData();
+    getLocationData(); // Calling function to load data when the screen initializes
   }
 
   @override

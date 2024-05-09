@@ -5,7 +5,7 @@ import 'pages/main_page.dart';
 import 'helpers/provider_engine.dart';
 
 void main() {
-  runApp(const TheEarth());
+  runApp(const TheEarth()); // Starting point of the application
 }
 
 class TheEarth extends StatelessWidget {
@@ -13,18 +13,18 @@ class TheEarth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider( // Using ChangeNotifierProvider for managing app state
       create: (context) {
-        return MainEngine();
+        return MainEngine(); // Creating an instance of MainEngine for state management
       },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: MainPage.mainPage,
+      child: MaterialApp( // MaterialApp widget for overall app structure
+        debugShowCheckedModeBanner: false, // Disabling debug banner
+        initialRoute: MainPage.mainPage, // Setting initial route to MainPage
         routes: {
-          MainPage.mainPage: (context) => const MainPage(),
-          Continent.continentPage: (context) => const Continent(),
+          MainPage.mainPage: (context) => const MainPage(), // Defining route for MainPage
+          Continent.continentPage: (context) => const Continent(), // Defining route for ContinentPage
         },
-        home: const MainPage(),
+        home: const MainPage(), // Setting MainPage as the default home page
       ),
     );
   }

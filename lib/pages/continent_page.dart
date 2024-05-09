@@ -4,7 +4,7 @@ import 'package:theearth/constants/style.dart';
 import '../widgets/extracted_widgets.dart';
 
 class Continent extends StatelessWidget {
-  static const String continentPage = 'continent_page';
+  static const String continentPage = 'continent_page'; // Defining a constant string for the page route
 
   const Continent({Key? key}) : super(key: key);
 
@@ -25,7 +25,7 @@ class Continent extends StatelessWidget {
       ),
       body: Container(
         decoration: continentPageContainerBoxDecoration,
-        padding: EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.only(top: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -33,19 +33,19 @@ class Continent extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Select a ',
                     style: kMainPageCaptionTextStyle,
                     textAlign: TextAlign.center,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: kMainColor
+                        borderRadius: BorderRadius.circular(20),
+                        color: kMainColor
                     ),
-                    child: Text(
-                      'Continent',
+                    child: const Text(
+                      'Continent', // Text widget
                       style: kMainPageCaptionContinentTextStyle,
                       textAlign: TextAlign.center,
                     ),
@@ -53,7 +53,7 @@ class Continent extends StatelessWidget {
                 ],
               ),
             ),
-            ContinentCard(),
+            const ContinentCard(), // Custom widget for displaying continent cards
           ],
         ),
       ),

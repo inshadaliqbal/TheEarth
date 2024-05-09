@@ -8,7 +8,7 @@ import 'continent_page.dart';
 import '../widgets/imported_widget.dart';
 
 class MainPage extends StatefulWidget {
-  static const String mainPage = 'welcome_screen';
+  static const String mainPage = 'welcome_screen'; // Defining a constant string for the main page route
 
   const MainPage({Key? key}) : super(key: key);
 
@@ -17,12 +17,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  bool rotation = true;
+  bool rotation = true; // Boolean variable for rotation
 
   @override
   void initState() {
     super.initState();
-    Provider.of<MainEngine>(context, listen: false).getAPIData();
+    Provider.of<MainEngine>(context, listen: false).getAPIData(); // Initializing state and fetching API data
   }
 
   @override
@@ -42,7 +42,7 @@ class _MainPageState extends State<MainPage> {
               ),
               const Center(
                 child:
-                Text('Solar System - 70% N2', style: kMainPageCaptionTextStyle),
+                Text('Solar System - 78% N2', style: kMainPageCaptionTextStyle),
               ),
               Expanded(
                 child: InteractiveGlobe(isRotate: rotation),
@@ -50,9 +50,8 @@ class _MainPageState extends State<MainPage> {
               MainButton(
                 buttonTitle: 'Visit Earth',
                 onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, Continent.continentPage);
-
+                  Navigator.pop(context); // Popping the current route
+                  Navigator.pushNamed(context, Continent.continentPage); // Navigating to the continent page
                 },
               ),
             ],
