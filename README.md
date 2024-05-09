@@ -11,16 +11,6 @@ Introducing my Flutter app, a comprehensive tool designed to provide detailed in
 
 
 
-## Screenshots
-
-![Welcome Screen](https://github.com/inshadaliqbal/TheEarth/blob/main/1.jpeg)
-![Continent Screen](https://github.com/inshadaliqbal/TheEarth/blob/main/2.jpeg)
-![Continent Screen](https://github.com/inshadaliqbal/TheEarth/blob/main/3.jpeg)
-![Country Listview](https://github.com/inshadaliqbal/TheEarth/blob/main/4.jpeg)
-![Sorting](https://github.com/inshadaliqbal/TheEarth/blob/main/5.jpeg)
-![Country Screen](https://github.com/inshadaliqbal/TheEarth/blob/main/6.jpeg)
-
-
 ## Plugins
 
  - [Model Viewer](https://pub.dev/packages/model_viewer_plus)
@@ -54,3 +44,13 @@ Introducing my Flutter app, a comprehensive tool designed to provide detailed in
 - **API Integration:** My App seamlessly integrates data from the Rest Country API and Pixabay API, ensuring access to up-to-date information and high-quality imagery.
   
 - **State Management:** Utilizing the Provider package, My App ensures efficient state management, guaranteeing a smooth and responsive user experience across various screens and interactions.
+
+## Screenshots
+
+![Welcome Screen](https://github.com/inshadaliqbal/TheEarth/blob/main/1.jpeg)
+![Continent Screen](https://github.com/inshadaliqbal/TheEarth/blob/main/2.jpeg)
+![Continent Screen](https://github.com/inshadaliqbal/TheEarth/blob/main/3.jpeg)
+![Country Listview](https://github.com/inshadaliqbal/TheEarth/blob/main/4.jpeg)
+![Sorting](https://github.com/inshadaliqbal/TheEarth/blob/main/5.jpeg)
+![Country Screen](https://github.com/inshadaliqbal/TheEarth/blob/main/6.jpeg)
+
