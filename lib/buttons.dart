@@ -4,7 +4,8 @@ import 'constants.dart';
 
 class MainButton extends StatelessWidget {
   Function buttonFunction;
-  MainButton({required this.buttonFunction});
+  String? buttonTitle;
+  MainButton({required this.buttonFunction,required this.buttonTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class MainButton extends StatelessWidget {
       // setState(() {
       // rotation = false;
       // });
-      child: Text('Visit Earth', style: kMainButtonTextStyle),
+      child: Text('${buttonTitle}', style: kMainButtonTextStyle),
     );
   }
 }

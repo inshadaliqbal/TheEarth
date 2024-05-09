@@ -50,6 +50,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                 ),
                 MainButton(
+                  buttonTitle: 'Visit Earth',
                   buttonFunction: () {
                     Navigator.pushNamed(context, Continent.continentPage);
                   },

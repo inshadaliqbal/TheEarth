@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:theearth/country_page.dart';
 import 'package:theearth/provider_engine.dart';
 import 'package:theearth/style.dart';
 import 'package:flutter_popup/flutter_popup.dart';
@@ -260,6 +261,11 @@ class _MyListViewWithExpansionPanelState
                   );
                 },
                 body: GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                      return CountryPage(officialName: items[index].officialName, currencyUsed: items[index].currencyUsed, capitalName: items[index].capitalName, languageUsed: items[index].languageUsed, area: items[index].area, mapURL: items[index].mapURL, commonName: items[index].commonName, population: items[index].population, continent: items[index].continent, subContinent: items[index].subContinent, flagURL: items[index].flagURL);
+                    },),);
+                  },
                   child: Container(
                     color: Colors.blueGrey,
                     padding: EdgeInsets.symmetric(horizontal: 18.0),

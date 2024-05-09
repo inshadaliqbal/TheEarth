@@ -45,8 +45,6 @@ class MainEngine extends ChangeNotifier {
 
   List<CountryData> _countryDataList = [];
 
-
-
   Future<dynamic> getAPIData() async {
     final ConnectivityResult connectivityResult =
         await (Connectivity().checkConnectivity());
@@ -90,12 +88,10 @@ class MainEngine extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCountryDataList(
-      int? index, String? selectedSubRegion) {
+  void updateCountryDataList(int? index, String? selectedSubRegion) {
     List<Map>? countriesList = _continentsMap[continentName(index!)];
     _countryDataList = [];
     if (selectedSubRegion == null) {
-
       for (Map countryData in countriesList!) {
         print('object');
         _countryDataList.add(
@@ -106,8 +102,13 @@ class MainEngine extends ChangeNotifier {
               continent: continentName(index),
               subContinent: countryData["subregion"],
               isExpandable: false,
-              flagURL: countryData["flags"]["png"]),
-
+              flagURL: countryData["flags"]["png"],
+              currencyUsed: countryData["currencies"],
+              capitalName: countryData["capital"],
+              languageUsed: countryData["languages"]
+                  [countryData["languages"][0]],
+              area: countryData["area"],
+              mapURL: countryData["maps"]["googleMaps"]),
         );
       }
 
@@ -116,23 +117,26 @@ class MainEngine extends ChangeNotifier {
       for (Map countryData in countriesList!) {
         if (selectedSubRegion == countryData["subregion"]) {
           print(selectedSubRegion);
-          _countryDataList.add(
-            CountryData(
-                officialName: countryData["name"]["official"],
-                commonName: countryData["name"]["common"],
-                population: countryData["population"],
-                continent: continentName(index),
-                subContinent: countryData["subregion"],
-                isExpandable: false,
-                flagURL: countryData["flags"]["png"]),
-          );
+          CountryData(
+              officialName: countryData["name"]["official"],
+              commonName: countryData["name"]["common"],
+              population: countryData["population"],
+              continent: continentName(index),
+              subContinent: countryData["subregion"],
+              isExpandable: false,
+              flagURL: countryData["flags"]["png"],
+              currencyUsed: countryData["currencies"]
+                  [countryData["currencies"][0]]["name"],
+              capitalName: countryData["capital"][0],
+              languageUsed: countryData["languages"]
+                  [countryData["languages"][0]],
+              area: countryData["area"],
+              mapURL: countryData["maps"]["googleMaps"]);
         }
       }
     }
     notifyListeners();
   }
-
-
 
   List<String> subRegion(int index) {
     List<Map>? countriesList = _continentsMap[continentName(index)];
@@ -150,32 +154,28 @@ class MainEngine extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  void resetCountryList(){
+  void resetCountryList() {
     _countryDataList = [];
   }
 
-  void searchCountryFuntion(String countryName,int index){
+  void searchCountryFuntion(String countryName, int index) {
     String? countryNameLowerCase = countryName.toLowerCase();
     List<CountryData> searchResult = [];
-
-    if (countryName == ''){
-      print('yes');
-      updateCountryDataList(index,null);
-    }else{
+    if (countryName == '') {
+      updateCountryDataList(index, null);
+    } else {
       for (CountryData data in _countryDataList) {
         String? offcialNameLowerCase = data.officialName!.toLowerCase();
         if (offcialNameLowerCase.contains(countryNameLowerCase)) {
           searchResult.add(data);
         }
       }
-
       _countryDataList = searchResult;
     }
     notifyListeners();
   }
 
-  List<CountryData> mainCOuntryListFunction(){
+  List<CountryData> mainCOuntryListFunction() {
     return _countryDataList;
   }
 }
