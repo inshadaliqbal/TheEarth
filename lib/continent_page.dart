@@ -5,7 +5,8 @@ import 'extracted_widgets.dart';
 
 class Continent extends StatelessWidget {
   static const String continentPage = 'continent_page';
-  const Continent({super.key});
+
+  const Continent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,27 +15,27 @@ class Continent extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.tealAccent.shade700,
         elevation: 0.0,
-        title: Center(
+        title: const Center(
           child: Text(
             'Explore the Continents',
-            style: kContinentPageTitle
+            style: kContinentPageTitleTextStyle,
           ),
         ),
       ),
       body: SafeArea(
         child: Container(
           decoration: continentPageContainerBoxDecoration,
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Center(
                 child: Text(
                   'Select a Continent',
-                  style: kMainPageCaptionTextstyle,
+                  style: kMainPageCaptionTextStyle,
                   textAlign: TextAlign.center,
                 ),
               ),
-              ContinentCard()
+              ContinentCard(),
             ],
           ),
         ),
@@ -42,4 +43,3 @@ class Continent extends StatelessWidget {
     );
   }
 }
-

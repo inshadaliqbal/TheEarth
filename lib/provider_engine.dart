@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'country_class.dart';
 import 'package:flutter/material.dart';
-
+import 'networking.dart';
 class MainEngine extends ChangeNotifier {
   final List<String> _continentList = [
     'Asia',
@@ -13,20 +13,20 @@ class MainEngine extends ChangeNotifier {
     'South America',
     'Antarctica',
     'Africa',
-    'Australia'
+    'Oceania'
   ];
 
-  Map<String, List<Map>> _continentsMap = {
+  final Map<String, List<Map>> _continentsMap = {
     'Asia': [],
     'Europe': [],
     'North America': [],
     'South America': [],
     'Antarctica': [],
     'Africa': [],
-    'Australia': []
+    'Oceania': []
   };
 
-  Map<String, String> _continentDescriptions = {
+  final Map<String, String> _continentDescriptions = {
     'Africa':
         'Africa, the second-largest continent, is renowned for its diverse landscapes, ranging from vast deserts like the Sahara to lush rainforests and savannas teeming with wildlife. It boasts a rich cultural tapestry, with thousands of languages spoken and vibrant traditions celebrated across its 54 countries.',
     'Asia':
@@ -39,32 +39,36 @@ class MainEngine extends ChangeNotifier {
         'South America, with its dense rainforests, towering mountains, and pristine beaches, is a continent of natural wonders. From the Amazon rainforest to the Andes Mountains, it offers unparalleled biodiversity and breathtaking scenery. Its rich cultural heritage, including ancient civilizations like the Incas, adds to its allure.',
     'Australia':
         'Oceania, comprising Australia, New Zealand, and thousands of Pacific islands, is a region of stunning natural beauty and cultural diversity. From the Great Barrier Reef to the volcanic landscapes of New Zealand, it offers unparalleled opportunities for adventure and exploration. Its indigenous cultures and traditions add depth and richness to the region.',
-    'Antarctica':
+    'Oceania':
         'Antarctica, the southernmost continent, is a vast, icy wilderness that remains largely uninhabited. It is known for its stunning landscapes, including towering icebergs, vast glaciers, and pristine wilderness. Despite its harsh conditions, Antarctica supports a rich ecosystem of marine life, including whales, seals, and penguins.'
   };
 
   List<CountryData> _countryDataList = [];
 
   Future<dynamic> getAPIData() async {
-    final ConnectivityResult connectivityResult =
-        await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      print('internet problem');
-    } else {
-      http.Response response = await http.get(
-        Uri.parse('https://restcountries.com/v3.1/all'),
-      );
-      if (response.statusCode == 200) {
-        for (String continent in _continentList) {
-          for (Map data in jsonDecode(response.body)) {
-            if (continent == data["continents"][0]) {
-              _continentsMap[continent]!.add(data);
+    try {
+      final ConnectivityResult connectivityResult =
+      await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        print('Internet problem');
+      } else {
+        http.Response response = await http.get(
+          Uri.parse('https://restcountries.com/v3.1/all'),
+        );
+        if (response.statusCode == 200) {
+          for (String continent in _continentList) {
+            for (Map data in jsonDecode(response.body)) {
+              if (continent == data["continents"][0]) {
+                _continentsMap[continent]!.add(data);
+              }
             }
           }
+        } else {
+          print('API problem: ${response.statusCode}');
         }
-      } else {
-        print('Api problem');
       }
+    } catch (e) {
+      print('An error occurred: $e');
     }
   }
 
@@ -93,9 +97,29 @@ class MainEngine extends ChangeNotifier {
     _countryDataList = [];
     if (selectedSubRegion == null) {
       for (Map countryData in countriesList!) {
-        print('object');
         _countryDataList.add(
           CountryData(
+              officialName: countryData["name"]["official"],
+              commonName: countryData["name"]["common"],
+              population: countryData["population"],
+              continent: continentName(index),
+              subContinent: countryData["subregion"],
+              isExpandable: false,
+              flagURL: countryData["flags"]["png"],
+              currencyUsed: countryData["currencies"],
+              capitalName: countryData["capital"],
+              languageUsed: countryData["languages"],
+              area: countryData["area"],
+              mapURL: countryData["maps"]["googleMaps"]),
+        );
+      }
+
+      notifyListeners();
+    } else {
+      for (Map countryData in countriesList!) {
+        if (selectedSubRegion == countryData["subregion"]) {
+
+          _countryDataList.add(CountryData(
               officialName: countryData["name"]["official"],
               commonName: countryData["name"]["common"],
               population: countryData["population"],
@@ -108,30 +132,7 @@ class MainEngine extends ChangeNotifier {
               languageUsed: countryData["languages"]
                   [countryData["languages"][0]],
               area: countryData["area"],
-              mapURL: countryData["maps"]["googleMaps"]),
-        );
-      }
-
-      notifyListeners();
-    } else {
-      for (Map countryData in countriesList!) {
-        if (selectedSubRegion == countryData["subregion"]) {
-          print(selectedSubRegion);
-          CountryData(
-              officialName: countryData["name"]["official"],
-              commonName: countryData["name"]["common"],
-              population: countryData["population"],
-              continent: continentName(index),
-              subContinent: countryData["subregion"],
-              isExpandable: false,
-              flagURL: countryData["flags"]["png"],
-              currencyUsed: countryData["currencies"]
-                  [countryData["currencies"][0]]["name"],
-              capitalName: countryData["capital"][0],
-              languageUsed: countryData["languages"]
-                  [countryData["languages"][0]],
-              area: countryData["area"],
-              mapURL: countryData["maps"]["googleMaps"]);
+              mapURL: countryData["maps"]["googleMaps"]),);
         }
       }
     }
@@ -165,8 +166,8 @@ class MainEngine extends ChangeNotifier {
       updateCountryDataList(index, null);
     } else {
       for (CountryData data in _countryDataList) {
-        String? offcialNameLowerCase = data.officialName!.toLowerCase();
-        if (offcialNameLowerCase.contains(countryNameLowerCase)) {
+        String? officialNameLowerCase = data.officialName!.toLowerCase();
+        if (officialNameLowerCase.contains(countryNameLowerCase)) {
           searchResult.add(data);
         }
       }
@@ -175,7 +176,8 @@ class MainEngine extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<CountryData> mainCOuntryListFunction() {
+  List<CountryData> mainCountryListFunction() {
     return _countryDataList;
   }
+
 }

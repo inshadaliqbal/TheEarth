@@ -1,8 +1,8 @@
 class CountryData{
   String? officialName;
   Map<String, dynamic> currencyUsed;
-  List<dynamic>? capitalName;
-  String? languageUsed;
+  List? capitalName;
+  Map? languageUsed;
   double? area;
   String? mapURL;
   String? commonName;

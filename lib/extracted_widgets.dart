@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:theearth/country_page.dart';
+import 'package:theearth/loading_page.dart';
 import 'package:theearth/provider_engine.dart';
 import 'package:theearth/style.dart';
 import 'package:flutter_popup/flutter_popup.dart';
-
 import 'constants.dart';
 import 'country_class.dart';
 
@@ -16,7 +16,6 @@ class ContinentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? textFieldValue;
     String? selectedSubRegion;
 
     return Container(
@@ -32,7 +31,8 @@ class ContinentCard extends StatelessWidget {
               decoration: continentCardBoxDecoration,
               child: GestureDetector(
                 onTap: () {
-                  Provider.of<MainEngine>(context,listen: false).updateCountryDataList(index, selectedSubRegion);
+                  Provider.of<MainEngine>(context, listen: false)
+                      .updateCountryDataList(index, selectedSubRegion);
                   showModalBottomSheet(
                       context: context,
                       builder: (context) {
@@ -52,78 +52,28 @@ class ContinentCard extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          CustomPopup(
-                                            contentPadding: EdgeInsets.all(10),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  'Filter',
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                                Icon(
-                                                  Icons.filter_alt_outlined,
-                                                  size: 15,
-                                                ),
-                                              ],
-                                            ),
-                                            content: ListView.builder(
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index1) {
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    selectedSubRegion =
-                                                        Provider.of<MainEngine>(
-                                                                context,
-                                                                listen: false)
-                                                            .subRegion(
-                                                                index)[index1];
-                                                    Provider.of<MainEngine>(context,listen: false).updateCountryDataList(index, selectedSubRegion);
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.blueGrey,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10)),
-                                                    padding: EdgeInsets.all(20),
-                                                    margin: EdgeInsets.all(10),
-                                                    child: Text(
-                                                        Provider.of<MainEngine>(
-                                                                context)
-                                                            .subRegion(
-                                                                index)[index1]),
-                                                  ),
-                                                );
-                                              },
-                                              itemCount:
+                                          PopUpWidgetBottomSheet(
+                                            functionOnTap: (value) {
+                                              selectedSubRegion =
                                                   Provider.of<MainEngine>(
-                                                          context)
-                                                      .subRegion(index)
-                                                      .length,
-                                            ),
-                                            // Column(
-                                            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            //   children: Provider.of<MainEngine>(context).subRegion(index),
-                                            // ),
+                                                          context,
+                                                          listen: false)
+                                                      .subRegion(index)[value];
+                                              Provider.of<MainEngine>(context,
+                                                      listen: false)
+                                                  .updateCountryDataList(
+                                                      index, selectedSubRegion);
+                                            },
+                                            index: index,
                                           ),
                                           Expanded(
                                             child: Container(
                                               padding: EdgeInsets.symmetric(
                                                   vertical: 5, horizontal: 20),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  color: Colors.teal),
+                                              decoration: bottomSheetTitleDecoration,
                                               child: Text(
                                                 'Countries Inside ${Provider.of<MainEngine>(context).continentName(index)}',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                  letterSpacing: 2,
-                                                ),
+                                                style: kBottomSheetHeadingTextStyle,
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -139,44 +89,9 @@ class ContinentCard extends StatelessWidget {
                                           Provider.of<MainEngine>(context,
                                                   listen: false)
                                               .searchCountryFuntion(
-                                                  value,index);
+                                                  value, index);
                                         },
-                                        decoration: InputDecoration(
-                                          hintText: 'Search Country',
-                                          hintStyle:
-                                              TextStyle(color: Colors.black),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 15.0, horizontal: 20.0),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.teal,
-                                              width: 2.0,
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.teal,
-                                              width: 2.0,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.teal,
-                                              width: 2.0,
-                                            ),
-                                          ),
-                                          suffixIcon: Icon(
-                                            Icons.search,
-                                            color: Colors.teal,
-                                            size: 30,
-                                          ),
-                                        ),
+                                        decoration: textFieldInputDecoration,
                                       ),
                                     )
                                   ],
@@ -187,7 +102,7 @@ class ContinentCard extends StatelessWidget {
                               flex: 2,
                               child: MyListViewWithExpansionPanel(
                                 itemList: Provider.of<MainEngine>(context)
-                                    .mainCOuntryListFunction(),
+                                    .mainCountryListFunction(),
                               ),
                             ),
                           ],
@@ -216,6 +131,56 @@ class ContinentCard extends StatelessWidget {
               ),
             );
           }),
+    );
+  }
+}
+
+class PopUpWidgetBottomSheet extends StatelessWidget {
+  Function? functionOnTap;
+  int? index;
+  PopUpWidgetBottomSheet({required this.functionOnTap, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPopup(
+      contentPadding: EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Text(
+            'Filter',
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          Icon(
+            Icons.filter_alt_outlined,
+            size: 15,
+          ),
+        ],
+      ),
+      content: ListView.builder(
+        itemBuilder: (BuildContext context, int index1) {
+          return GestureDetector(
+            onTap: () {
+              functionOnTap!(index1);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10)),
+              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.all(10),
+              child: Text(
+                  Provider.of<MainEngine>(context).subRegion(index!)[index1]),
+            ),
+          );
+        },
+        itemCount: Provider.of<MainEngine>(context).subRegion(index!).length,
+      ),
+      // Column(
+      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //   children: Provider.of<MainEngine>(context).subRegion(index),
+      // ),
     );
   }
 }
@@ -261,10 +226,14 @@ class _MyListViewWithExpansionPanelState
                   );
                 },
                 body: GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                      return CountryPage(officialName: items[index].officialName, currencyUsed: items[index].currencyUsed, capitalName: items[index].capitalName, languageUsed: items[index].languageUsed, area: items[index].area, mapURL: items[index].mapURL, commonName: items[index].commonName, population: items[index].population, continent: items[index].continent, subContinent: items[index].subContinent, flagURL: items[index].flagURL);
-                    },),);
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LoadingScreen(dataForCountryPage: items[index]);
+                        },
+                      ),
+                    );
                   },
                   child: Container(
                     color: Colors.blueGrey,
@@ -272,7 +241,7 @@ class _MyListViewWithExpansionPanelState
                     margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                     child: Text(
                       'The ${items[index].commonName} as the Common name, ${items[index].officialName} contains population of ${items[index].population} and it is a Sub Region of ${items[index].subContinent}',
-                      style: TextStyle(fontSize: 16.0, color: Colors.white),
+                      style: kCountryDescTestStyle,
                     ),
                   ),
                 ),
