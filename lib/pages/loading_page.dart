@@ -20,7 +20,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           countryName: widget.dataForCountryPage.commonName); // Creating network helper object to fetch data
       imageData = await networkHelper.getData(); // Fetching image data from API
     } catch (e) {
-      print('An error occurred while fetching image data: $e '); // Handling error if data fetching fails
+      print('An error occurred while fetching image data: $e   '); // Handling error if data fetching fails
     }
     Navigator.of(context).push(
       MaterialPageRoute(
