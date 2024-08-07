@@ -34,7 +34,7 @@ class Continent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Select a ',
+                    'Select a',
                     style: kMainPageCaptionTextStyle,
                     textAlign: TextAlign.center,
                   ),
